@@ -7,19 +7,7 @@ Este paquete genera RSS con los estrenos/incorporaciones fechadas que FilmAffini
 - Prime Video España
 - HBO Max / Max España
 
-## Por qué no está el cuarto enlace que pasaste
 
-El enlace:
-
-```text
-https://www.filmaffinity.com/es/rdcat.php?id=new_th_es
-```
-
-no es una plataforma. Es cartelera/cines. Para plataformas he usado HBO Max / Max:
-
-```text
-https://www.filmaffinity.com/es/cat_new_hbo_es.html
-```
 
 ## Uso
 
