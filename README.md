@@ -27,13 +27,11 @@ feeds/max-hbo.xml
 
 ## URLs finales en GitHub Pages
 
-Si tu usuario de GitHub es `Gramero` y el repositorio se llama `filmaffinity-rss`, serán:
-
 ```text
-https://gramero.github.io/filmaffinity-rss/feeds/movistar.xml
-https://gramero.github.io/filmaffinity-rss/feeds/filmin.xml
-https://gramero.github.io/filmaffinity-rss/feeds/prime-video.xml
-https://gramero.github.io/filmaffinity-rss/feeds/max-hbo.xml
+/filmaffinity-rss/feeds/movistar.xml
+/filmaffinity-rss/feeds/filmin.xml
+/filmaffinity-rss/feeds/prime-video.xml
+/filmaffinity-rss/feeds/max-hbo.xml
 ```
 
 ## Actualización automática
