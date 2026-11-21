@@ -47,8 +47,6 @@ feeds/cartelera.xml
 /filmaffinity-rss/feeds/cartelera.xml
 ```
 
-`feeds/max-hbo.xml` es un fichero antiguo de una versión anterior; ya no se regenera.
-
 ## Actualización automática
 
 El workflow incluido actualiza los RSS cada 6 horas.
