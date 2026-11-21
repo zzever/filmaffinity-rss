@@ -63,7 +63,7 @@ def clean(text: str) -> str:
 
 
 def fetch(url: str) -> BeautifulSoup:
-    response = crequests.get(url, headers=HEADERS, impersonate="chrome124", timeout=30)
+    response = crequests.get(url, headers=HEADERS, impersonate="chrome", timeout=30)
     response.raise_for_status()
     return BeautifulSoup(response.text, "html.parser")
 
