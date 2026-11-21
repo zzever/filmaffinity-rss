@@ -10,8 +10,8 @@ from email.utils import format_datetime
 from pathlib import Path
 from urllib.parse import urljoin
 
-import requests
 from bs4 import BeautifulSoup
+from curl_cffi import requests as crequests
 
 
 SOURCES = {
@@ -31,7 +31,7 @@ SOURCES = {
         "title": "Estrenos en cartelera - FilmAffinity",
         "url": "https://www.filmaffinity.com/es/rdcat.php?id=new_th_es",
     },
-        "hbo-max": {
+    "hbo-max": {
         "title": "Estrenos HBO Max / Max España - FilmAffinity",
         "url": "https://www.filmaffinity.com/es/rdcat.php?id=new_hbo_es",
     },
@@ -54,10 +54,6 @@ SOURCES = {
 }
 
 HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36"
-    ),
     "Accept-Language": "es-ES,es;q=0.9,en;q=0.7",
 }
 
@@ -67,22 +63,50 @@ def clean(text: str) -> str:
 
 
 def fetch(url: str) -> BeautifulSoup:
-    response = requests.get(url, headers=HEADERS, timeout=30)
+    response = crequests.get(url, headers=HEADERS, impersonate="chrome124", timeout=30)
     response.raise_for_status()
     return BeautifulSoup(response.text, "html.parser")
 
 
+_DATE_WORDS = {
+    # months (full + common abbreviations)
+    "ene", "enero", "feb", "febrero", "mar", "marzo", "abr", "abril",
+    "may", "mayo", "jun", "junio", "jul", "julio", "ago", "agosto",
+    "sep", "sept", "septiembre", "oct", "octubre", "nov", "noviembre",
+    "dic", "diciembre",
+    # weekdays (full + common abbreviations)
+    "lun", "lunes", "mar", "martes", "mie", "mié", "miércoles",
+    "jue", "jueves", "vie", "viernes", "sab", "sáb", "sábado",
+    "dom", "domingo",
+}
+
+
 def is_date(text: str) -> bool:
     text = clean(text).lower()
-    return bool(
-        re.match(r"^\d{1,2}\s+[a-záéíóúñ]{3,}\.?$", text)
-        or re.match(r"^\d{1,2}\s+de\s+[a-záéíóúñ]+\s+de\s+\d{4}$", text)
-        or text == "hoy"
+    if not text:
+        return False
+    if text == "hoy":
+        return True
+    patterns = [
+        r"^\d{1,2}\s+[a-záéíóúñ]{3,}\.?$",
+        r"^\d{1,2}\s+de\s+[a-záéíóúñ]+\s+de\s+\d{4}$",
+        r"^\d{1,2}\s+de\s+[a-záéíóúñ]+$",
+        r"^[a-záéíóúñ]+,\s*\d{1,2}\s+de\s+[a-záéíóúñ]+$",
+        r"^[a-záéíóúñ]+,\s*\d{1,2}\s+de\s+[a-záéíóúñ]+\s+de\s+\d{4}$",
+    ]
+    if not any(re.match(p, text) for p in patterns):
+        return False
+    words = re.findall(r"[a-záéíóúñ]+", text)
+    if not words:
+        return False
+    # Every alphabetic token must be either "de" or a known date word.
+    return all(w in _DATE_WORDS or w.rstrip(".") in _DATE_WORDS or w == "de" for w in words) and any(
+        w in _DATE_WORDS or w.rstrip(".") in _DATE_WORDS for w in words
     )
 
 
 def is_real_film_link(href: str | None) -> bool:
-    return bool(href and re.search(r"/film\d+\.html$", href))
+    return bool(href and re.search(r"/film\d+", href))
 
 
 def extract_items(soup: BeautifulSoup, page_url: str, max_items: int = 80) -> list[dict]:
@@ -90,33 +114,59 @@ def extract_items(soup: BeautifulSoup, page_url: str, max_items: int = 80) -> li
     seen = set()
     current_date = ""
 
-    for a in soup.find_all("a", href=True):
-        text = clean(a.get_text(" "))
-        href = a.get("href")
+    def relevant(tag) -> bool:
+        if not getattr(tag, "name", None):
+            return False
+        text = clean(tag.get_text(" "))
+        # Date containers (non-anchor elements whose whole text is a date).
+        if tag.name != "a" and is_date(text) and len(text) < 80:
+            return True
+        # Film links.
+        if tag.name == "a" and is_real_film_link(tag.get("href")):
+            if not text:
+                return False
+            if is_date(text):
+                return True
+            # Skip icons, pure ratings like "5,4" and "[+]" read-more links.
+            if not re.search(r"[a-záéíóúñ0-9]", text.lower()):
+                return False
+            if re.fullmatch(r"[\d,\.\s]+", text):
+                return False
+            if re.fullmatch(r"\[\+\]", text):
+                return False
+            # Skip blurred-out titles used as spoiler/unreleased placeholders.
+            if re.fullmatch(r"[\.\u2022\s]+", text):
+                return False
+            return True
+        return False
 
-        if not text or not is_real_film_link(href):
-            continue
+    for tag in soup.find_all(relevant):
+        if tag.name == "a":
+            text = clean(tag.get_text(" "))
+            href = tag.get("href")
+            link = urljoin(page_url, href)
 
-        link = urljoin(page_url, href)
+            if is_date(text):
+                current_date = text
+                continue
 
-        if is_date(text):
-            current_date = text
-            continue
+            if link in seen:
+                continue
+            seen.add(link)
 
-        if link in seen:
-            continue
+            title = f"{text} — {current_date}" if current_date else text
+            items.append({
+                "title": title,
+                "link": link,
+                "description": f"Estreno/incorporación según FilmAffinity{(' — ' + current_date) if current_date else ''}",
+            })
 
-        seen.add(link)
-        title = f"{text} — {current_date}" if current_date else text
-
-        items.append({
-            "title": title,
-            "link": link,
-            "description": f"Estreno/incorporación según FilmAffinity{(' — ' + current_date) if current_date else ''}",
-        })
-
-        if len(items) >= max_items:
-            break
+            if len(items) >= max_items:
+                break
+        else:
+            text = clean(tag.get_text(" "))
+            if is_date(text):
+                current_date = text
 
     return items
 
