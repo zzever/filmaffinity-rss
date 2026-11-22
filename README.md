@@ -22,15 +22,15 @@ python fa_rss.py
 ## URLs finales en GitHub Pages
 
 ```text
-https://zzever.github.io/filmaffiny-rss/feeds/movistar.xml
-https://zzever.github.io/filmaffiny-rss/feeds/filmin.xml
-https://zzever.github.io/filmaffiny-rss/feeds/prime-video.xml
-https://zzever.github.io/filmaffiny-rss/feeds/hbo-max.xml
-https://zzever.github.io/filmaffiny-rss/feeds/netflix.xml
-https://zzever.github.io/filmaffiny-rss/feeds/disney-plus.xml
-https://zzever.github.io/filmaffiny-rss/feeds/apple-tv-plus.xml
-https://zzever.github.io/filmaffiny-rss/feeds/skyshowtime.xml
-https://zzever.github.io/filmaffiny-rss/feeds/cartelera.xml
+https://zzever.github.io/filmaffinity-rss/feeds/movistar.xml
+https://zzever.github.io/filmaffinity-rss/feeds/filmin.xml
+https://zzever.github.io/filmaffinity-rss/feeds/prime-video.xml
+https://zzever.github.io/filmaffinity-rss/feeds/hbo-max.xml
+https://zzever.github.io/filmaffinity-rss/feeds/netflix.xml
+https://zzever.github.io/filmaffinity-rss/feeds/disney-plus.xml
+https://zzever.github.io/filmaffinity-rss/feeds/apple-tv-plus.xml
+https://zzever.github.io/filmaffinity-rss/feeds/skyshowtime.xml
+https://zzever.github.io/filmaffinity-rss/feeds/cartelera.xml
 ```
 
 ## Actualización automática
