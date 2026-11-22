@@ -48,6 +48,17 @@ feeds/cartelera.xml
 ```
 
 ## Actualización automática
+<ul>
+  <li><a href="feeds/movistar.xml">Movistar Plus+</a></li>
+  <li><a href="feeds/filmin.xml">Filmin</a></li>
+  <li><a href="feeds/prime-video.xml">Prime Video</a></li>
+  <li><a href="feeds/hbo-max.xml">HBO Max</a></li>
+  <li><a href="feeds/netflix.xml">Netflix</a></li>
+  <li><a href="feeds/disney-plus.xml">Disney+</a></li>
+  <li><a href="feeds/apple-tv-plus.xml">Apple TV+</a></li>
+  <li><a href="feeds/skyshowtime.xml">SkyShowtime</a></li>
+  <li><a href="feeds/cartelera.xml">Cartelera</a></li>
+</ul>
 
 El workflow incluido actualiza los RSS cada 6 horas.
 
