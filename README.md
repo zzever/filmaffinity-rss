@@ -19,32 +19,18 @@ pip install curl_cffi beautifulsoup4
 python fa_rss.py
 ```
 
-Crea:
-
-```text
-feeds/movistar.xml
-feeds/filmin.xml
-feeds/prime-video.xml
-feeds/hbo-max.xml
-feeds/netflix.xml
-feeds/disney-plus.xml
-feeds/apple-tv-plus.xml
-feeds/skyshowtime.xml
-feeds/cartelera.xml
-```
-
 ## URLs finales en GitHub Pages
 
 ```text
-/filmaffinity-rss/feeds/movistar.xml
-/filmaffinity-rss/feeds/filmin.xml
-/filmaffinity-rss/feeds/prime-video.xml
-/filmaffinity-rss/feeds/hbo-max.xml
-/filmaffinity-rss/feeds/netflix.xml
-/filmaffinity-rss/feeds/disney-plus.xml
-/filmaffinity-rss/feeds/apple-tv-plus.xml
-/filmaffinity-rss/feeds/skyshowtime.xml
-/filmaffinity-rss/feeds/cartelera.xml
+https://zzever.github.io/filmaffiny-rss/feeds/movistar.xml
+https://zzever.github.io/filmaffiny-rss/feeds/filmin.xml
+https://zzever.github.io/filmaffiny-rss/feeds/prime-video.xml
+https://zzever.github.io/filmaffiny-rss/feeds/hbo-max.xml
+https://zzever.github.io/filmaffiny-rss/feeds/netflix.xml
+https://zzever.github.io/filmaffiny-rss/feeds/disney-plus.xml
+https://zzever.github.io/filmaffiny-rss/feeds/apple-tv-plus.xml
+https://zzever.github.io/filmaffiny-rss/feeds/skyshowtime.xml
+https://zzever.github.io/filmaffiny-rss/feeds/cartelera.xml
 ```
 
 ## Actualización automática
