@@ -53,3 +53,20 @@ Requiere que en el repositorio esté activado **Settings → Pages → Source: D
 ## Notas
 
 FilmAffinity está detrás de Cloudflare y responde `403` a peticiones con `requests`/`curl`. Por eso el script usa `curl_cffi` con impersonación de Chrome, que sí obtiene el HTML. Si en el futuro vuelve a fallar con `403`, actualiza `curl_cffi` o cambia el valor de `impersonate` en `fa_rss.py`.
+
+
+## Aviso legal
+
+- Proyecto personal, sin ánimo de lucro y **sin ninguna afiliación** con FilmAffinity ni con las
+  plataformas de streaming mencionadas. Sus marcas y logotipos pertenecen a sus titulares y aquí
+  solo se citan de forma descriptiva.
+- Los títulos, sinopsis, fechas y demás datos pertenecen a sus respectivos titulares. Los feeds los
+  reproducen con fines informativos y de uso personal. El repositorio no aloja carteles, tráilers ni
+  contenido audiovisual, ni da acceso a catálogos de pago.
+- Los feeds están pensados para uso personal en un lector RSS. No se autoriza su uso comercial ni su
+  redistribución masiva.
+- El proyecto se limita a leer páginas públicas y no recoge ni almacena datos personales de terceros.
+- Si algún titular de derechos considera que este repositorio excede el uso informativo, puede abrir
+  un *issue* y el contenido en cuestión se retira.
+- Los feeds pueden dejar de funcionar si el sitio de origen cambia su estructura o sus condiciones.
+  Quien los consuma es responsable del uso que haga de ellos.
